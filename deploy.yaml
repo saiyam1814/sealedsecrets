@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubesimplify
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubesimplify
+  template:
+    metadata:
+      labels:
+        app: kubesimplify
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:latest
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: password
+        ports:
+        - containerPort: 3306
